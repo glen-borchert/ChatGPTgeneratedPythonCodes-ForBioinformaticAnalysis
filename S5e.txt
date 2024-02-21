@@ -1,0 +1,32 @@
+import docx
+
+# Prompt the user for the filenames
+sequences_filename = input("Enter the filename containing 20 nucleotide sequences: ")
+counts_filename = input("Enter the filename to count their occurrences: ")
+
+# Read the sequences
+with open(sequences_filename, 'r') as sequences_file:
+    sequences = [line.strip() for line in sequences_file]
+
+# Count occurrences in the second file
+sequence_counts = {}
+with open(counts_filename, 'r') as counts_file:
+    for line in counts_file:
+        for sequence in sequences:
+            count = line.count(sequence)
+            if count > 0:
+                sequence_counts[sequence] = sequence_counts.get(sequence, 0) + count
+
+# Create a Word document
+doc = docx.Document()
+
+# Add the unique sequences and their counts in order of generation
+for sequence in sequences:
+    if sequence in sequence_counts:
+        doc.add_paragraph(f"{sequence}: {sequence_counts[sequence]}")
+        del sequence_counts[sequence]
+
+# Save the Word document
+doc.save("unique20.docx")
+
+print("Word document 'unique20.docx' has been created.")
