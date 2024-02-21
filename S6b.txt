@@ -1,0 +1,18 @@
+def count_reads(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            line_count = sum(1 for line in file)
+        return line_count
+    except FileNotFoundError:
+        return "File not found"
+    except Exception as e:
+        return f"An error occurred: {str(e)}"
+
+if __name__ == "__main__":
+    file_path = input("Enter the path to the file: ")
+    read_count = count_reads(file_path)
+    
+    if isinstance(read_count, int):
+        print(f"Number of reads in the file: {read_count}")
+    else:
+        print(read_count)
