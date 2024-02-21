@@ -1,0 +1,29 @@
+# Define the file paths
+input_file_path = "/Users/meredithshaddix/Documents/CHATGPT/input.txt"
+output_file_path = "/Users/meredithshaddix/Documents/CHATGPT/pieces.txt"
+
+# Read the linear string from the input file
+with open(input_file_path, 'r') as input_file:
+    linear_string = input_file.read()
+
+# Define the length of each section
+section_length = 100
+
+# Create a list to store the sections
+sections = []
+
+# Break the linear string into sections of 100 letters (including shorter pieces)
+for i in range(0, len(linear_string), section_length):
+    section = linear_string[i:i + section_length]
+    sections.append(section)
+
+# Write the sections with headers to the output file
+with open(output_file_path, 'w') as output_file:
+    for i, section in enumerate(sections, start=1):
+        start_pos = i * section_length + 1
+        end_pos = min((i + 1) * section_length, len(linear_string))
+        header = f"> Positions {start_pos} to {end_pos} from original string"
+        output_file.write(header + '\n')
+        output_file.write(section + '\n')
+
+print("Sections have been written to", output_file_path)
